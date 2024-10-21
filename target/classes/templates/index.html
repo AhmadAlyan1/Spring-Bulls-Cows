@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org" xmlns="http://www.w3.org/1999/html">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <title>Bulls and Cows</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <link rel="stylesheet" href="/css/main.css"/>
+</head>
+<body>
+<h3 class="container text-center font">Welcome to Bulls and Cows game</h3>
+<br>
+    <div class="container space center alert alert-info font">
+        <div class="text-success" sec:authorize="hasRole('ROLE_ADMIN')"> <h5>The answer is: </h5><h6 th:text="${answer}"></h6></div>
+        <div class="row text-center">
+            <div class="col-12 col-md-12 col-lg-4" sec:authorize="not hasRole('ROLE_ADMIN')">
+                <br>
+                <form class="col g-3" action="#" th:action="@{/login}" method="get">
+                        <button type="submit" class="btn btn-outline-success">Admin login</button>
+                </form>
+            </div>
+
+            <div class="col-12 col-md-12 col-lg-4" sec:authorize="hasRole('ROLE_ADMIN')">
+                <br>
+                <form class="col g-3" action="#" th:action="@{/logout}" method="post">
+                        <button type="submit" class="btn btn-outline-danger">logout</button>
+                </form>
+            </div>
+
+            <div class="col-12 col-md-6 col-lg-4">
+                <br>
+                <button id="rulesButton" type="button" class="btn btn-warning" onclick="handleRules()">Game rules</button>
+            </div>
+            <div class="col-12 col-md-6 col-lg-4">
+                <br>
+                <form action="/" method="get">
+                        <button type="submit" class="btn btn-danger">Start new game</button>
+                </form>
+            </div>
+        </div>
+        <br>
+        <div id="gameRules" class="alert alert-warning" role="alert" hidden>
+            The program generates a 4-digit number, while the player tries to guess it.
+            Each digit appears at most once. e.g. 1234 is valid, but 1233 is not valid.
+            For every guess that the player makes, we display 2 values:
+            the number of bulls: 1 bull means the guess contains and the target number have 1 digit in common, and in the correct position.
+            the number of cows: 1 cow means the guess and the target have 1 digit in common, but not in correct position.
+            For example if the number to guess is 1234. Guessing 4321 will give 0 bulls and 4 cows. 3241 will give 1 bull and 3 cows.
+            4 bulls means that the user won the game.
+        </div>
+        <form class="row g-3" action="#" th:action="@{/guess}" th:object="${guess}" method="post">
+            <div class="col-12 col-md-6 col-xl-3">
+                <select class="form-select" name="num1" th:field="*{num1}">
+                <option value="-1">Guess...</option>
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                </select>
+                <span th:if="${#fields.hasErrors('num1')}" th:errors="*{num1}" class="text-danger"></span>
+            </div>
+            <div class="col-12 col-md-6 col-xl-3">
+                <select class="form-select" name="num2" th:field="*{num2}">
+                <option value="-1">Guess...</option>
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                </select>
+                <span th:if="${#fields.hasErrors('num2')}" th:errors="*{num2}" class="text-danger"></span>
+            </div>
+
+            <div class="col-12 col-md-6 col-xl-3">
+                <select class="form-select" name="num3" th:field="*{num3}">
+                <option value="-1">Guess...</option>
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                </select>
+                <span th:if="${#fields.hasErrors('num3')}" th:errors="*{num3}" class="text-danger"></span>
+            </div>
+
+            <div class="col-12 col-md-6 col-xl-3">
+                <select class="form-select" name="num4" th:field="*{num4}">
+                <option value="-1">Guess...</option>
+                <option value="0">0</option>
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                </select>
+                <span th:if="${#fields.hasErrors('num4')}" th:errors="*{num4}" class="text-danger"></span>
+            </div>
+            <div class="d-grid gap-2 d-md-block">
+                <button type="submit" class="btn btn-primary">Go!</button>
+            </div>
+        </form>
+        <br>
+        <div class="alert alert-warning" role="alert">
+            <span th:text="${message}"></span>
+        </div>
+        <div class="alert alert-light" role="alert">
+            <table class="table table-striped table-hover table-bordered">
+                <thead>
+                <tr>
+                    <th scope="col">Guess</th>
+                    <th scope="col">Bulls</th>
+                    <th scope="col">Cows</th>
+                </tr>
+                </thead>
+                <tbody>
+                    <tr th:each="row: ${tableRows}">
+                        <td th:text="${row.getGuess()}" />
+                        <td th:text="${row.getBulls()}" />
+                        <td th:text="${row.getCows()}" />
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+        <div class="row">
+            <div sec:authorize="hasRole('ROLE_ADMIN')" class="col-12 col-md-12 col-lg-12 justify-content-md-end">
+                <form class="row g-3" action="#" th:action="@{/admin/winners}" method="get">
+                    </br>
+                    <div class="d-grid gap-2 d-md-block">
+                        <button type="submit" class="btn btn-info">HighScore Table</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script src="/index.js"></script>
+</html>

@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Login page</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+  <link rel="stylesheet" href="/css/main.css"/>
+  <meta charset="utf-8" />
+</head>
+<body>
+  <div class="container text-center alert alert-info font space">
+    <h1>Admin Login page</h1>
+
+    <div th:if="${param.error}" class="alert alert-danger">
+      Invalid username and password.
+    </div>
+    <div th:if="${param.logout}" class="alert alert-danger">
+      You have been logged out.
+    </div>
+
+    <form th:action="@{/login}" method="post" class="row mb-3 center">
+      <div class="col-12 col-md-12 col-lg-12 mb-3"><label> Username: <input type="text" name="username"/> </label></div>
+      <div class="col-12 col-md-12 col-lg-12 mb-3"><label> Password: <input type="password" name="password"/> </label></div>
+      <div class="col-12 col-md-12 col-lg-12 mb-3"><button class="btn btn-primary" type="submit" value="Sign In"> Sign in</button></div>
+    </form>
+
+    <p><a href="../" th:href="@{/}">Back to home page</a></p>
+  </div>
+</body>
+</html>

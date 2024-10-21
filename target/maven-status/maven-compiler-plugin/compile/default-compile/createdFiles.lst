@@ -1,0 +1,14 @@
+hac\controllers\DebugController.class
+hac\repo\WinnersRepository.class
+hac\WebSecurityConfig.class
+hac\controllers\CustomErrorController.class
+hac\beans\TableRow.class
+hac\Ex5TemplateApplication.class
+hac\beans\Table.class
+hac\beans\WinnerDetails.class
+hac\BeanConfiguration.class
+hac\beans\Winners.class
+hac\beans\UserGuess.class
+hac\controllers\GameController.class
+hac\controllers\WinningController.class
+hac\beans\Answer.class
