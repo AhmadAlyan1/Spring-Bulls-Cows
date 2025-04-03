@@ -3,8 +3,7 @@
 
 ## Authors
 * Name: Ahmad Alyan
-* Email: a7mad.sami.3lyan@gmail.com
-
+  
 ## Description
 * This is Bulls and Cows game.
 The program generates a 4-digits number, while the player tries to guess it.
